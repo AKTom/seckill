@@ -58,4 +58,25 @@ public class SeckillServiceImplTest {
         }
     }
 
+    // 测试存储过程
+    @Test
+    public void testSeckillLogicProcedure() {
+        long id = 1000;
+        long userPhone = 13922114990L;
+        Exposer exposer = seckillService.exportSeckillUrl(id);
+        if (exposer.isExposed()) {
+            logger.info("exposer = {}",exposer);
+            String md5 = exposer.getMd5();
+            try {
+                SeckillExecution execution = seckillService.executeSeckillProcedure(id, userPhone, md5);
+                logger.info("execution = {}", execution);
+            } catch (RepeatKillException e) {
+                logger.error(e.getMessage());
+            } catch (SeckillCloseException e) {
+                logger.error(e.getMessage());
+            }
+        } else {
+            logger.warn("exposer = {}", exposer);
+        }
+    }
 }

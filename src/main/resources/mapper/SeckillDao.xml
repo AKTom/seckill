@@ -31,6 +31,7 @@
         limit #{offset},#{limit}
     </select>
 
+    <!-- mybatis 调用存储过程 -->
     <select id="killByProcedure" statementType="CALLABLE">
         CALL execute_seckill(
         #{seckillId, jdbcType=BIGINT, mode=IN},
@@ -39,5 +40,6 @@
         #{result, jdbcType=INTEGER, mode=OUT}
         )
     </select>
+
 
 </mapper>
